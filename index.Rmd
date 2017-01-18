@@ -1,0 +1,86 @@
+---
+title       : Gviz - Genomic Region Visualization in R
+subtitle    : MonBUG Meeting January 2017
+author      : Jean Monlong
+job         : PhD Candidate McGill University
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      #
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(message=FALSE, warning=FALSE, fig.height=3)
+```
+
+## R and Bioconductor
+
++ [R](https://www.r-project.org/) : free software environment for statistical computing and graphics.
++ [Bioconductor](http://bioconductor.org/): R package for bioinformatics.
+
+### GenomicRanges
+
+```{r, echo=FALSE}
+library(GenomicRanges)
+gr = GRanges(4, IRanges(runif(3,1,1e7), width=c(1,10,1045)), strand=c("+","-","+"), geneName=c("Mon","BUG","Jan"))
+```
+
+```{r}
+gr
+```
+
+## Gviz package
+
++ [Available on Bioconductor](https://bioconductor.org/packages/release/bioc/html/Gviz.html).
+
+```{r}
+library(Gviz)
+atrack <- AnnotationTrack(gr, name = "My ranges")
+gatrack <- GenomeAxisTrack()
+plotTracks(list(gatrack, atrack))
+```
+
+---
+
+Let's look at some examples:
+
++ QTL and genes
++ CNV and functional regions.
++ Read alignment
+
+## QTL and gene model
+
++ Data track: -log10(Pvalues) of the QTL
++ Chromosome ideogram
++ Axis
++ Gene model
+
+## Data track
+
+## Chromosome ideogram and axis
+
+## Gene model
+
+## Joining the tracks
+
+## UCSC tracks
+
+UCSC tracks can be imported directly !
+
+## CNV
+
+## Label using the `id` argument
+
+## Color using the `feature` argument
+
+## Group using the `group` argument
+
+## Read alignment
+
+From Bam
+
+## Data tracks
+
+![](Gviz-Datatracks.png)
