@@ -8,6 +8,7 @@ highlighter : highlight.js  # {highlight.js, prettify, highlight}
 hitheme     : tomorrow      #
 widgets     : []            # {mathjax, quiz, bootstrap}
 mode        : selfcontained # {standalone, draft}
+output: ioslides_presentation
 knit        : slidify::knit2slides
 ---
 
@@ -15,56 +16,62 @@ knit        : slidify::knit2slides
 knitr::opts_chunk$set(message=FALSE, warning=FALSE, fig.height=3)
 ```
 
-## R and Bioconductor
+
+## R, Bioconductor, Gviz
 
 + [R](https://www.r-project.org/) : free software environment for statistical computing and graphics.
 + [Bioconductor](http://bioconductor.org/): R package for bioinformatics.
++ [Gviz on Bioconductor](https://bioconductor.org/packages/release/bioc/html/Gviz.html).
 
-### GenomicRanges
+## Example
+
+```{r, echo=FALSE, fig.height=5}
+load("demo.RData")
+from = 36400000
+to =   37000000
+plotTracks(list(ideoTrack, gatrack, genetrack, atrack, qtrack), from=from, to=to)
+```
+
+## Important functions
+
++ `GenomeAxisTrack`: An axis
++ `IdeogramTrack`: Chromosome ideogram
++ `DataTrack`: Different types of graphs
++ `AnnotationTrack`: Ranges annotation
++ `GeneRegionTrack`: Same but for genes
+
+## Simple example
 
 ```{r, echo=FALSE}
 library(GenomicRanges)
-gr = GRanges("chr21", IRanges(runif(3,36400000,37000000), width=c(1,10,1045)), strand=c("+","-","+"), name=c("Mon","BUG","Jan"))
+gr = GRanges("chr21", IRanges(runif(3,36400000,37000000), width=c(1e4,10e4,14e4)), name=c("Mon","BUG","Jan"))
 ```
 
 ```{r}
-gr
-```
-
-## Gviz package
-
-```{r}
+## Let's say we have 'gr' and 'qtls' GRanges
 library(Gviz)
-atrack = AnnotationTrack(gr, name="My ranges")
+atrack = AnnotationTrack(gr, name="Track")
 gatrack = GenomeAxisTrack()
-plotTracks(list(gatrack, atrack))
+qtrack = DataTrack(qtls, data="logPv", name="QTLs")
+plotTracks(list(gatrack, atrack, qtrack))
 ```
 
----
+## Data Tracks
 
-Let's look at some examples:
-
-+ QTL and genes
-+ CNV and functional regions.
-+ Read alignment
-
-## QTL and gene model
-
-+ Data track: -log10(Pvalues) of the QTL
-+ Chromosome ideogram
-+ Axis
-+ Gene model
+```{r, echo=FALSE, out.height=500}
+knitr::include_graphics("Gviz-Datatracks.png")
+```
 
 ## Data track
 
 ```{r, echo=FALSE}
-qtls = GRanges("chr21", IRanges(unique(runif(1e3,36400000,37000000)), width=1))
+qtls = GRanges("chr21", IRanges(sort(unique(runif(1e3,36400000,37000000))), width=1))
 qtls$logPv = -log10(runif(length(qtls)))
 qtls$logPv[sample.int(length(qtls),3)] = runif(3, 1,10)
 ```
 
 ```{r}
-qtrack = DataTrack(qtls, name="QTLs")
+qtrack = DataTrack(qtls, data="logPv", name="QTLs", type="l")
 plotTracks(list(atrack, qtrack))
 ```
 
@@ -72,6 +79,7 @@ plotTracks(list(atrack, qtrack))
 
 ```{r}
 ideoTrack <- IdeogramTrack(genome = "hg19", chromosome = "chr21")
+gatrack = GenomeAxisTrack()
 plotTracks(list(ideoTrack, gatrack,atrack, qtrack))
 ```
 
@@ -81,7 +89,7 @@ I downloaded Gencode annotation and parsed it to look like this
 
 ```{r}
 load("gencode.v25.ch21.RData")
-head(gencode)
+gencode[1]
 ```
 
 ## Gene model track
@@ -91,15 +99,6 @@ from = 36400000
 to =   37000000
 genetrack <- GeneRegionTrack(gencode, genome = "hg19", name = "Gene", transcriptAnnotation="symbol")
 plotTracks(genetrack, from=from, to=to)
-```
-
----
-
-```{r}
-gencode.simp = gencode
-gencode.simp$transcript = gencode.simp$symbol
-genesimptrack <- GeneRegionTrack(gencode.simp, genome = "hg19", name = "Gene", transcriptAnnotation = "symbol")
-plotTracks(genesimptrack, from=from, to=to)
 ```
 
 ## Joining the tracks
@@ -129,10 +128,6 @@ plotTracks(list(gatrack, atrack))
 
 From BAM
 
-## Data Tracks
-
-![](Gviz-Datatracks.png)
 
 ## Links
 
-+ [Gviz on Bioconductor](https://bioconductor.org/packages/release/bioc/html/Gviz.html).
