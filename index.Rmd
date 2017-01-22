@@ -9,23 +9,24 @@ hitheme     : tomorrow      #
 widgets     : []            # {mathjax, quiz, bootstrap}
 mode        : selfcontained # {standalone, draft}
 output: ioslides_presentation
+css: test.css
 knit        : slidify::knit2slides
 ---
 
 ```{r, include=FALSE}
-knitr::opts_chunk$set(message=FALSE, warning=FALSE, fig.height=3)
+knitr::opts_chunk$set(message=FALSE, warning=FALSE, fig.height=3, tidy=TRUE, tidy.opts=list(blank=FALSE, width.cutoff=50))
 ```
-
 
 ## R, Bioconductor, Gviz
 
 + [R](https://www.r-project.org/) : free software environment for statistical computing and graphics.
-+ [Bioconductor](http://bioconductor.org/): R package for bioinformatics.
-+ [Gviz on Bioconductor](https://bioconductor.org/packages/release/bioc/html/Gviz.html).
++ [Bioconductor](http://bioconductor.org/): R packages for bioinformatics.
++ [Gviz](https://bioconductor.org/packages/release/bioc/html/Gviz.html): Package for genomic region visualization.
 
 ## Example
 
 ```{r, echo=FALSE, fig.height=5}
+library(Gviz)
 load("demo.RData")
 from = 36400000
 to =   37000000
@@ -34,17 +35,20 @@ plotTracks(list(ideoTrack, gatrack, genetrack, atrack, qtrack), from=from, to=to
 
 ## Important functions
 
-+ `GenomeAxisTrack`: An axis
 + `IdeogramTrack`: Chromosome ideogram
-+ `DataTrack`: Different types of graphs
-+ `AnnotationTrack`: Ranges annotation
++ `GenomeAxisTrack`: An axis
 + `GeneRegionTrack`: Same but for genes
++ `AnnotationTrack`: Ranges annotation
++ `DataTrack`: Different types of graphs
 
 ## Simple example
 
 ```{r, echo=FALSE}
 library(GenomicRanges)
 gr = GRanges("chr21", IRanges(runif(3,36400000,37000000), width=c(1e4,10e4,14e4)), name=c("Mon","BUG","Jan"))
+qtls = GRanges("chr21", IRanges(sort(unique(runif(1e3,36400000,37000000))), width=1))
+qtls$logPv = -log10(runif(length(qtls)))
+qtls$logPv[sample.int(length(qtls),3)] = runif(3, 1,10)
 ```
 
 ```{r}
@@ -56,22 +60,15 @@ qtrack = DataTrack(qtls, data="logPv", name="QTLs")
 plotTracks(list(gatrack, atrack, qtrack))
 ```
 
-## Data Tracks
+## Data tracks {#myImagePage}
 
-```{r, echo=FALSE, out.height=500}
-knitr::include_graphics("Gviz-Datatracks.png")
-```
+![](./Gviz-Datatracks.png)
+
 
 ## Data track
 
-```{r, echo=FALSE}
-qtls = GRanges("chr21", IRanges(sort(unique(runif(1e3,36400000,37000000))), width=1))
-qtls$logPv = -log10(runif(length(qtls)))
-qtls$logPv[sample.int(length(qtls),3)] = runif(3, 1,10)
-```
-
 ```{r}
-qtrack = DataTrack(qtls, data="logPv", name="QTLs", type="l")
+qtrack = DataTrack(qtls, data="logPv", name="QTLs", type="h")
 plotTracks(list(atrack, qtrack))
 ```
 
@@ -103,7 +100,7 @@ plotTracks(genetrack, from=from, to=to)
 
 ## Joining the tracks
 
-```{r}
+```{r, fig.height=4}
 plotTracks(list(ideoTrack, gatrack, genetrack, atrack, qtrack), from=from, to=to)
 ```
 
@@ -116,18 +113,45 @@ ucscGenes <- UcscTrack(genome="hg19", chromosome="chr21", from=min(start(gr)), t
 plotTracks(list(gatrack, atrack))
 ```
 
-## CNV
-
 ## Label using the `id` argument
 
 ## Color using the `feature` argument
 
 ## Group using the `group` argument
 
-## Read alignment
+## Other examples - Read Alignment
 
-From BAM
+```{r, echo=FALSE, fig.height=5}
+afrom <- 2960000
+ato <- 3160000
+```
 
+```{r}
+alTrack <- AlignmentsTrack(system.file(package = "Gviz", "extdata", "gapped.bam"), isPaired = TRUE)
+```
+
+```{r, echo=FALSE, fig.height=4}
+bmt <- BiomartGeneRegionTrack(genome = "hg19", chromosome = "chr12", start = afrom, end = ato, filter = list(with_ox_refseq_mrna = TRUE), stacking = "dense")
+plotTracks(c(bmt, alTrack), from = afrom + 12700, to = afrom + 15200, chromosome = "chr12")
+```
+
+## Other examples - Read Alignment
+
+```{r, fig.height=4}
+plotTracks(c(bmt, alTrack), from = afrom + 12700, to = afrom + 15200, chromosome = "chr12", type = c("coverage", "sashimi"))
+```
+
+## Other examples - Read Alignment
+
+```{r, echo=FALSE, fig.height=5}
+alTrack <- AlignmentsTrack(system.file(package = "Gviz", "extdata", "snps.bam"), isPaired = TRUE)
+library(BSgenome.Hsapiens.UCSC.hg19)
+strack <- SequenceTrack(Hsapiens)
+plotTracks(c(alTrack,strack), chromosome = "chr21", from = 44946590, to = 44946660, cex = 0.5, min.height = 8)
+```
 
 ## Links
 
++ [Gviz manual](https://bioconductor.org/packages/release/bioc/vignettes/Gviz/inst/doc/Gviz.pdf).
++ [STHDA Wiki page](http://www.sthda.com/english/wiki/gviz-visualize-genomic-data).
++ [Slides from author](https://www.bioconductor.org/help/course-materials/2012/BiocEurope2012/GvizEuropeanBioc2012.pdf).

@@ -15,3 +15,9 @@ gencode = gtf %>% as.data.frame %>% filter(seqnames=="chr21", type %in% c("CDS",
                     makeGRangesFromDataFrame(keep.extra.columns = TRUE)
 
 save(gencode, file="gencode.v25.ch21.RData")
+
+library(PopSV)
+load("cnv.RData")
+cnv.f = freq.range(subset(cnv.df, z< -10))
+subset(cnv.f, nb>4 & nb<15)
+
