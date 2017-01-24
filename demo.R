@@ -1,4 +1,4 @@
-glibrary(Gviz)
+library(Gviz)
 
 ##
 ## Annotation Track
@@ -8,10 +8,13 @@ cnv
 atrack = AnnotationTrack(cnv, name="CNV")
 plotTracks(atrack)
 
-atrack = AnnotationTrack(cnv, name="CNV", feature=cnv$type, deletion="indianred", duplication="steelblue")
+atrack = AnnotationTrack(cnv, name="CNV",
+    feature=cnv$type, deletion="indianred",
+    duplication="steelblue")
 plotTracks(atrack)
 
-atrack = AnnotationTrack(cnv, name="CNV", group=cnv$sample, showId=TRUE)
+atrack = AnnotationTrack(cnv, name="CNV",
+    group=cnv$sample, showId=TRUE)
 plotTracks(atrack)
 
 atrack = AnnotationTrack(cnv, name="CNV", group=cnv$sample, feature=cnv$type, deletion="indianred", duplication="steelblue", showId=TRUE)
@@ -28,7 +31,7 @@ ideoTrack = IdeogramTrack(genome = "hg19", chromosome = "chr21")
 
 ## A data track: QTLs with pvalues
 qtls
-qtrack = DataTrack(qtls, data="logPv", name="QTLs", type="h")
+qtrack = DataTrack(qtls, data=qtls$logPv, name="QTLs", type="h")
 
 ## Custom gene model
 load("gencode.v25.ch21.RData")
@@ -41,7 +44,7 @@ ah = AnnotationHub()
 query(ah, c("hg19", "dnase"))
 dnase = ah[["AH45280"]] # UW.Pancreas.ChromatinAccessibility.STL003.DNase.DS20753
 dnase
-dtrack = DataTrack(dnase, data="score", type="gradient", name="DNase")
+dtrack = DataTrack(dnase, data=dnase$score, type="gradient", name="DNase")
 
 ## Join tracks
 from = 36400000
@@ -52,6 +55,9 @@ plotTracks(list(ideoTrack, gatrack, genetrack, dtrack, atrack, qtrack), from=fro
 plotTracks(list(ideoTrack, gatrack, genetrack, dtrack, atrack, qtrack), from=from, to=to, sizes=c(1,1,4,1,4,4))
 
 
+## If screen is too white
+plotTracks(list(ideoTrack, gatrack, genetrack, dtrack, atrack, qtrack), from=from, to=to, background.panel = "#FFFEDB", background.title = "darkblue")
+plotTracks(list(ideoTrack, gatrack, genetrack, dtrack, atrack, qtrack), from=from, to=to)
 
 
 ## save(ideoTrack, gatrack, genetrack, dtrack, atrack, qtrack, file="demo.RData")
