@@ -9,7 +9,7 @@ hitheme     : tomorrow      #
 widgets     : []            # {mathjax, quiz, bootstrap}
 mode        : selfcontained # {standalone, draft}
 output: ioslides_presentation
-css: test.css
+css: slides.css
 knit        : slidify::knit2slides
 ---
 
@@ -70,7 +70,7 @@ plotTracks(qtrack)
 ## Chromosome ideogram and axis
 
 ```{r}
-ideoTrack <- IdeogramTrack(genome = "hg19", chromosome = "chr21")
+ideoTrack = IdeogramTrack(genome = "hg19", chromosome = "chr21")
 gatrack = GenomeAxisTrack()
 plotTracks(list(ideoTrack, gatrack, qtrack))
 ```
@@ -89,7 +89,7 @@ gencode[1]
 ```{r}
 from = 36400000
 to =   37000000
-genetrack <- GeneRegionTrack(gencode, genome = "hg19", name = "Gene", transcriptAnnotation="symbol")
+genetrack = GeneRegionTrack(gencode, genome = "hg19", name = "Gene", transcriptAnnotation="symbol")
 plotTracks(genetrack, from=from, to=to)
 ```
 
@@ -104,7 +104,7 @@ plotTracks(list(ideoTrack, gatrack, genetrack, qtrack), from=from, to=to)
 UCSC tracks can be imported directly, but for some reason it's slow.
 
 ```{r, eval=FALSE}
-ucscGenes <- UcscTrack(genome="hg19", chromosome="chr21", from=min(start(gr)), to=max(end(gr)), track="knownGene", trackType="GeneRegionTrack", rstarts="exonStarts", rends="exonEnds", gene="name", symbol="name", transcript="name", strand="strand", fill="#8282d2", name="UCSC Genes")
+ucscGenes = UcscTrack(genome="hg19", chromosome="chr21", from=min(start(gr)), to=max(end(gr)), track="knownGene", trackType="GeneRegionTrack", rstarts="exonStarts", rends="exonEnds", gene="name", symbol="name", transcript="name", strand="strand", fill="#8282d2", name="UCSC Genes")
 plotTracks(list(gatrack, atrack))
 ```
 
@@ -121,16 +121,16 @@ plotTracks(list(ideoTrack, gatrack, genetrack, dtrack, atrack, qtrack), from=fro
 ## Other examples - Read Alignment
 
 ```{r, echo=FALSE, fig.height=5}
-afrom <- 2960000
-ato <- 3160000
+afrom = 2960000
+ato = 3160000
 ```
 
 ```{r}
-alTrack <- AlignmentsTrack(system.file(package = "Gviz", "extdata", "gapped.bam"), isPaired = TRUE)
+alTrack = AlignmentsTrack(system.file(package = "Gviz", "extdata", "gapped.bam"), isPaired = TRUE)
 ```
 
 ```{r, echo=FALSE, fig.height=4}
-bmt <- BiomartGeneRegionTrack(genome = "hg19", chromosome = "chr12", start = afrom, end = ato, filter = list(with_ox_refseq_mrna = TRUE), stacking = "dense")
+bmt = BiomartGeneRegionTrack(genome = "hg19", chromosome = "chr12", start = afrom, end = ato, filter = list(with_ox_refseq_mrna = TRUE), stacking = "dense")
 plotTracks(c(bmt, alTrack), from = afrom + 12700, to = afrom + 15200, chromosome = "chr12")
 ```
 
@@ -143,9 +143,9 @@ plotTracks(c(bmt, alTrack), from = afrom + 12700, to = afrom + 15200, chromosome
 ## Other examples - Read Alignment
 
 ```{r, echo=FALSE, fig.height=5}
-alTrack <- AlignmentsTrack(system.file(package = "Gviz", "extdata", "snps.bam"), isPaired = TRUE)
+alTrack = AlignmentsTrack(system.file(package = "Gviz", "extdata", "snps.bam"), isPaired = TRUE)
 library(BSgenome.Hsapiens.UCSC.hg19)
-strack <- SequenceTrack(Hsapiens)
+strack = SequenceTrack(Hsapiens)
 plotTracks(c(alTrack,strack), chromosome = "chr21", from = 44946590, to = 44946660, cex = 0.5, min.height = 8)
 ```
 

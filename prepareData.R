@@ -30,10 +30,12 @@ qtls$logPv[sample.int(length(qtls),3)] = runif(3, 1,10)
 
 save(cnv, qtls, file="data.RData")
 
+## For GRanges creation example
+qtls %>% as.data.frame %>% select(seqnames, start, end, logPv) %>% dplyr::rename(chr=seqnames) %>% write.table(file="qtls.tsv", sep="\t", row.names=FALSE, quote=FALSE)
 
 ## Offline backup
 library(Gviz)
-ideoTrack <- IdeogramTrack(genome = "hg19", chromosome = "chr21")
+ideoTrack = IdeogramTrack(genome = "hg19", chromosome = "chr21")
 library(AnnotationHub)
 ah = AnnotationHub()
 query(ah, c("hg19", "dnase"))

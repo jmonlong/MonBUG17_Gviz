@@ -1,8 +1,8 @@
-library(Gviz)
+glibrary(Gviz)
 
 ##
 ## Annotation Track
-load("cnv.RData")
+load("data.RData")
 cnv
 
 atrack = AnnotationTrack(cnv, name="CNV")
@@ -24,7 +24,7 @@ plotTracks(atrack)
 
 ## Axis and chromosome ideogram
 gatrack = GenomeAxisTrack()
-ideoTrack <- IdeogramTrack(genome = "hg19", chromosome = "chr21")
+ideoTrack = IdeogramTrack(genome = "hg19", chromosome = "chr21")
 
 ## A data track: QTLs with pvalues
 qtls
@@ -33,7 +33,7 @@ qtrack = DataTrack(qtls, data="logPv", name="QTLs", type="h")
 ## Custom gene model
 load("gencode.v25.ch21.RData")
 gencode
-genetrack <- GeneRegionTrack(gencode, genome = "hg19", name = "Gene", transcriptAnnotation="symbol")
+genetrack = GeneRegionTrack(gencode, genome = "hg19", name = "Gene", transcriptAnnotation="symbol")
 
 ## DNAse
 library(AnnotationHub)
