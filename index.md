@@ -27,7 +27,7 @@ Important functions
 Simple example
 --------------
 
-    ## Let's say we have 'gr' and 'qtls' GRanges
+    ## Let's say we have 'cnv' and 'qtls' GRanges
     library(Gviz)
     atrack = AnnotationTrack(cnv, name = "CNVs")
     gatrack = GenomeAxisTrack()
@@ -62,7 +62,8 @@ Chromosome ideogram and axis
 Gene model
 ----------
 
-I downloaded Gencode annotation and parsed it to look like this
+I downloaded [Gencode](https://www.gencodegenes.org/) annotation and
+parsed it to look like this
 
     load("gencode.v25.ch21.RData")
     gencode[1]

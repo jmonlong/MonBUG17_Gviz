@@ -123,7 +123,7 @@
 
 </article></slide><slide class=''><hgroup><h2>Simple example</h2></hgroup><article  id="simple-example">
 
-<pre class = 'prettyprint lang-r'>## Let&#39;s say we have &#39;gr&#39; and &#39;qtls&#39; GRanges
+<pre class = 'prettyprint lang-r'>## Let&#39;s say we have &#39;cnv&#39; and &#39;qtls&#39; GRanges
 library(Gviz)
 atrack = AnnotationTrack(cnv, name = &quot;CNVs&quot;)
 gatrack = GenomeAxisTrack()
@@ -154,7 +154,7 @@ plotTracks(list(ideoTrack, gatrack, qtrack))</pre>
 
 </article></slide><slide class=''><hgroup><h2>Gene model</h2></hgroup><article  id="gene-model">
 
-<p>I downloaded Gencode annotation and parsed it to look like this</p>
+<p>I downloaded <a href='https://www.gencodegenes.org/' title=''>Gencode</a> annotation and parsed it to look like this</p>
 
 <pre class = 'prettyprint lang-r'>load(&quot;gencode.v25.ch21.RData&quot;)
 gencode[1]</pre>

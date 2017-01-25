@@ -57,7 +57,6 @@ plotTracks(list(ideoTrack, gatrack, genetrack, dtrack, atrack, qtrack), from=fro
 
 ## If screen is too white
 plotTracks(list(ideoTrack, gatrack, genetrack, dtrack, atrack, qtrack), from=from, to=to, background.panel = "#FFFEDB", background.title = "darkblue")
-plotTracks(list(ideoTrack, gatrack, genetrack, dtrack, atrack, qtrack), from=from, to=to)
 
 
 ## save(ideoTrack, gatrack, genetrack, dtrack, atrack, qtrack, file="demo.RData")

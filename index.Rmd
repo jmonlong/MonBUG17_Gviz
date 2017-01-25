@@ -47,7 +47,7 @@ plotTracks(list(ideoTrack, gatrack, genetrack, dtrack, atrack, qtrack), from=fro
 ## Simple example
 
 ```{r}
-## Let's say we have 'gr' and 'qtls' GRanges
+## Let's say we have 'cnv' and 'qtls' GRanges
 library(Gviz)
 atrack = AnnotationTrack(cnv, name="CNVs")
 gatrack = GenomeAxisTrack()
@@ -77,7 +77,7 @@ plotTracks(list(ideoTrack, gatrack, qtrack))
 
 ## Gene model
 
-I downloaded Gencode annotation and parsed it to look like this
+I downloaded [Gencode](https://www.gencodegenes.org/) annotation and parsed it to look like this
 
 ```{r}
 load("gencode.v25.ch21.RData")
