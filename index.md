@@ -118,6 +118,11 @@ Demo - Custom annotations
 
 ![](index_files/figure-markdown_strict/unnamed-chunk-10-1.png)
 
+Other examples - Overlay data
+-----------------------------
+
+![](./EpiPopSV-example.png)
+
 Other examples - Read Alignment
 -------------------------------
 

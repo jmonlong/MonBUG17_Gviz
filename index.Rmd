@@ -118,6 +118,11 @@ load("demo.RData")
 plotTracks(list(ideoTrack, gatrack, genetrack, dtrack, atrack, qtrack), from=from, to=to, sizes=c(1,1,4,1,4,4))
 ```
 
+## Other examples - Overlay data {#myImagePage}
+
+![](./EpiPopSV-example.png)
+
+
 ## Other examples - Read Alignment
 
 ```{r, echo=FALSE, fig.height=5}
